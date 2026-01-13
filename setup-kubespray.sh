@@ -476,7 +476,10 @@ fi
 #
 cd $OURDIR/kubespray
 ansible-playbook -i $INVDIR/inventory.ini \
-    cluster.yml $METALLB_PLAYBOOK -e @${OVERRIDES} -b -v
+    cluster.yml $METALLB_PLAYBOOK -e @${OVERRIDES} -b -v \
+    -e calico_ipip_mode=Never \
+    -e kubelet_cpu_manager_policy=static \
+    -e kube_proxy_mode=ipvs
 
 if [ ! $? -eq 0 ]; then
     cd ..
